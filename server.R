@@ -39,15 +39,27 @@ shinyServer(function(input, output,session) {
                   return(as.character(t))
                   })
   
+  
+  #subsetting
   dataoverall<-reactive({
-    
-    
+
     form<-stcs[[crf()]]
     var<-as.character(input$variables)
     pp<-form[,var]
     
+   if(type()=="1")
+    {
+      sum<-NULL
+    }
     
-    if(type()=="3"){ 
+    else if(type()=="2")
+    {
+      sum<-NULL
+    }
+    
+    
+    
+    else if(type()=="3"){ 
     valueall<- dplyr::recode(as.character(pp), 
                              .missing="Missing", 
                              'Unknown' = "Unknown",
@@ -81,16 +93,6 @@ shinyServer(function(input, output,session) {
       sum<-cbind(back, form[,c("patid","refcentre")])
     }
     
-    else if(type=="1")
-    {
-      sum<-NULL
-    }
-
-    else if(type=="2")
-    {
-      sum<-NULL
-    }
-    
     #still missed: set the colors to stay consistent with barplot missing values: try a recode + random color for other levels than missing specificated values
     else{sum<-NULL}
     print(head(sum,3))
@@ -104,7 +106,20 @@ shinyServer(function(input, output,session) {
      var<-as.character(input$variables)
      pp<-form[,var]
      
-    if(type()=="2") {
+    if(type()=="1"){
+      value<-dplyr::recode(as.character(pp), 
+                           .default="Entered",
+                           .missing="Missing", 
+                           'Unknown' = "Unknown",
+                           'Global consent refused' = "Global consent refused",
+                           'Refused' = "Refused",
+                           'Answer Refused'  = "Refused",
+                           'Not applicable' = "Not applicable",
+                           'Not Done' = "Not Done"
+      )
+    } 
+     
+    else if(type()=="2") {
       value<-dplyr::recode(as.character(pp), 
                         .default="Entered",
                         .missing="Missing", 
@@ -116,7 +131,7 @@ shinyServer(function(input, output,session) {
                        )
        }
 
-    if(type()=="3") {
+    else if(type()=="3") {
     
       
       value<-dplyr::recode(as.character(pp), 
@@ -131,7 +146,7 @@ shinyServer(function(input, output,session) {
                          )
        }
      
-     if(type()=="4") {
+     else if(type()=="4") {
        
        value<-dplyr::recode(as.character(pp), 
                          .default="Entered",
@@ -142,9 +157,9 @@ shinyServer(function(input, output,session) {
                          '-999' = "Not applicable",
                          '-666' = "Not Done"
                         )
-       }
+     }
     
-     
+
      back<-cbind(pp,value)
      back2<-cbind(back, form[,c("patid","refcentre")])
      back2 <- data.frame(as.matrix( filter(back2, value != "Global consent refused" & value != "Not applicable" )))
