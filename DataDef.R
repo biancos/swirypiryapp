@@ -6,6 +6,7 @@ library(tidyr)
 library(car)
 library(shinydashboard)
 
+#setwd("C:/Users/biancoscudellas/Documents/GitHub/swirypiryapp")
 stcs<-readRDS("./data/stcsDB_L2_19-09-2017.rds")
 
 for(i in 1:length(stcs)){

@@ -58,7 +58,15 @@ dashboardPage( skin = "blue",
                 h5(print("Data quality report application - Beta Version - Serena Bianco"))
                 
                 )
+    # ,
+    # tabItem(tabName = "other",
+    #         fluidRow(
+    #           box(),
+    #           box(),
+    #           box()
+    #         ))
     ),
+  
     tags$body(tags$style(HTML('
         .skin-blue .main-body .logo {
                               background-color: #3c8dbc;
